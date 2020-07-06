@@ -47,3 +47,25 @@ module spread_fill_xy(w, h, nx, ny, padx=0, pady=undef, center=false, stamp=fals
 module lift(h) {
     translate([0,0,h]) children();
 }
+
+module and_mirror(v) {
+    children();
+    mirror(v) children();
+}
+
+module and_rotate(a, v) {
+    children();
+    rotate(a, v) children();
+}
+
+module place(positions) {
+    for(p=positions) {
+        translate(p) children();
+    }
+}
+
+function center_bb(vals, bb) = [for(v=vals)  v - bb/2];
+
+function rect_corners(size, center=false) = center ?
+                                            center_bb(rect_corners(size, center=false), size) :
+                                            [for (i=[0:1], j=[0:1]) [size[0]*i, size[1]*j, 0]];
