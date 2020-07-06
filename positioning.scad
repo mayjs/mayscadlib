@@ -58,14 +58,24 @@ module and_rotate(a, v) {
     rotate(a, v) children();
 }
 
+/// Places all children at all positions given in the positions vector.
+/// This is meant to be used in conjunction with points functions like rect_corners.
+///
+/// # Examples
+/// ```
+/// place(rect_corners([10,10]) cylinder(r=10, h=5);
+/// ```
 module place(positions) {
     for(p=positions) {
         translate(p) children();
     }
 }
 
+/// Internal helper to center a set of coordinates using a bounding box
 function center_bb(vals, bb) = [for(v=vals)  v - bb/2];
 
+/// Returns the corner points of a rectangle with the given `size`.
+/// If `center` is set to true, the rectangle will be centered on (0,0)
 function rect_corners(size, center=false) = center ?
                                             center_bb(rect_corners(size, center=false), size) :
                                             [for (i=[0:1], j=[0:1]) [size[0]*i, size[1]*j, 0]];
