@@ -58,6 +58,11 @@ module and_rotate(a, v) {
     rotate(a, v) children();
 }
 
+module and_rotate_mirror(ra, mv) {
+    children();
+    mirror(mv) rotate(ra) children();
+}
+
 /// Places all children at all positions given in the positions vector.
 /// This is meant to be used in conjunction with points functions like rect_corners.
 ///
