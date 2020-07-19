@@ -22,6 +22,36 @@ module grid_2d(w, h, nx, ny, spacing, center=false) {
     square(grid_2d_hole_dims(w, h, nx, ny, spacing));
 }
 
+/// A square with rounded corner.
+/// Each corner may have a different radius.
+///
+/// * Use the `corner_rad` argument to set a corner radius for all corners
+/// * The `corner_override` argument may be used to set custom radii for the corners
+///   The order in the array is: bottom left, bottom right, top right, top left
+///   There are two special values: -1 to use the `corner_rad` value, 0 to use a square corner
+module rounded_square(size=[10,10], corner_rad=1, corner_override=[-1,-1,-1,-1], center=false) {
+    if(center) {
+        translate(-size/2)
+        rounded_square(size=size, corner_rad=corner_rad, corner_override=corner_override, center=false);
+    } else {
+        corner_lookup = [[0,0], [1,0], [1,1], [0,1]];
+        hull()
+        for(i=[0:3]) {
+            if(corner_override[i] != 0) {
+                f = corner_lookup[i];
+                rad = corner_override[i]==-1 ? corner_rad : corner_override[i];
+                translate([f[0] * (size[0]-2*rad), f[1] * (size[1]-2*rad)])
+                translate([rad,rad])
+                circle(r=rad);
+            } else {
+                f = corner_lookup[i];
+                translate([f[0] * (size[0]-1), f[1] * (size[1]-1)])
+                square([1,1]);
+            }
+        }
+    }
+}
+
 // Grid demo
 grid_2d(100,100, 10, 10, 3);
 
