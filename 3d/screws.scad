@@ -44,6 +44,25 @@ module fischer_duopower_6x30S(clearance=0, play=default_play, align_top=true) {
     counter_sunk_screw(4.5, 9, 4.5, 40.5, head_clearance=clearance, play=play, align_top=align_top);
 }
 
+function screw_type(desc) = desc[0];
+function screw_dia(desc) = desc[1];
+function screw_length(desc) = desc[2];
+function screw_head_dia(desc) = desc[3];
+function screw_head_h(desc) = desc[4];
+
+SCREW_TYPE_COUNTERSUNK = "counter_sunk_screw";
+
+/// Build a screw from a description
+module make_screw(screw_desc, head_clearance=0, play=default_play, align_top=true) {
+    if(screw_type(screw_desc) == "counter_sunk_screw") {
+        counter_sunk_screw(screw_dia(screw_desc), screw_head_dia(screw_desc),
+                           screw_head_h(screw_desc), screw_length(screw_desc),
+                           align_top=align_top, head_clearance=head_clearance, play=play);
+    }
+}
+
+function fan_screw() = [SCREW_TYPE_COUNTERSUNK, 4.8, 7.8, 6.7, 1.5];
+
 // Examples
 
 $fn=100;
