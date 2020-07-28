@@ -79,8 +79,21 @@ module place(positions) {
 /// Internal helper to center a set of coordinates using a bounding box
 function center_bb(vals, bb) = [for(v=vals)  v - bb/2];
 
+/// Translates a list of points using the given vector
+function translate_points(trans, points) = [for (p=points) p+trans];
+
 /// Returns the corner points of a rectangle with the given `size`.
 /// If `center` is set to true, the rectangle will be centered on (0,0)
 function rect_corners(size, center=false) = center ?
                                             center_bb(rect_corners(size, center=false), size) :
                                             [for (i=[0:1], j=[0:1]) [size[0]*i, size[1]*j, 0]];
+
+/// Returns the coordinates for an equilateral triangle.
+/// This may be usefull instead of a generalized n-gon function because the
+/// width is not the radius we would use there.
+function equilateral_triangle(width, center=false) = isosceles_triangle(width, sqrt(3)/2*width, center=center);
+
+function isosceles_triangle(width, height, center=false) = center ?
+                                                           center_bb(isosceles_triangle(width, height, center=false), [width,height]):
+                                                            [[0,0], [width,0], [width/2, height]];
+                                                           
