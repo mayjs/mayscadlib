@@ -15,10 +15,8 @@ default_play=0.2;
 /// * head_h: The height of the screw head
 /// * screw_length: The length of the screw including the head
 /// * align_top: If true, the top of the screw will be aligned with 0,0
-/// * head_clearance: Can be used to add addditional clearance to the screws head,
-///     useful if the screw will not be placed flush with the parts border
 /// * play: The additional play to add to the screw (as radius)
-module screw_with_head_shape(screw_dia, head_dia, head_h, screw_length, align_top=true, head_clearance=0, play=default_play, hole_length=0) {
+module screw_with_head_shape(screw_dia, head_dia, head_h, screw_length, align_top=true, play=default_play, hole_length=0) {
     screw_only_h = screw_length - head_h;
     module shape() {
         square(size=[screw_dia/2+play, screw_only_h]);
@@ -27,7 +25,7 @@ module screw_with_head_shape(screw_dia, head_dia, head_h, screw_length, align_to
     }
     if(align_top) {
         lift(-screw_length)
-        screw_with_head_shape(screw_dia, head_dia, head_h, screw_length, align_top=false, head_clearance=head_clearance, play=play, hole_length=hole_length) children();
+        screw_with_head_shape(screw_dia, head_dia, head_h, screw_length, align_top=false, play=play, hole_length=hole_length) children();
     } else {
         if(hole_length == 0) {
             rotate_extrude() shape() children();
@@ -59,7 +57,7 @@ module screw_with_head_shape(screw_dia, head_dia, head_h, screw_length, align_to
 ///     useful if the screw will not be placed flush with the parts border
 /// * play: The additional play to add to the screw (as radius)
 module counter_sunk_screw(screw_dia, head_dia, head_h, screw_length, align_top=true, head_clearance=0, play=default_play, hole_length=0) {
-    screw_with_head_shape(screw_dia, head_dia, head_h, screw_length, align_top=true, head_clearance=0, play=default_play, hole_length=0)
+    screw_with_head_shape(screw_dia, head_dia, head_h, screw_length, align_top=align_top, play=play, hole_length=hole_length)
     polygon([
                 [0,0],
                 [screw_dia/2+play,0],
@@ -82,8 +80,8 @@ module counter_sunk_screw(screw_dia, head_dia, head_h, screw_length, align_top=t
 ///     useful if the screw will not be placed flush with the parts border
 /// * play: The additional play to add to the screw (as radius)
 module pan_head_screw(screw_dia, head_dia, head_h, screw_length, align_top=true, head_clearance=0, play=default_play, hole_length=0) {
-    screw_with_head_shape(screw_dia, head_dia, head_h, screw_length, align_top=true, head_clearance=0, play=default_play, hole_length=0)
-    square([head_dia/2 + play, head_h]);
+    screw_with_head_shape(screw_dia, head_dia, head_h, screw_length, align_top=align_top, play=play, hole_length=hole_length)
+    square([head_dia/2 + play, head_h + head_clearance]);
 }
 
 // These modules are legacy code, but some of my models rely on them so I want to keep them working.
