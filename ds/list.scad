@@ -6,6 +6,10 @@ function empty_list() = [];
 function list_append(list, val) = concat(list, [val]);
 /// Delete an index in this list
 function list_del_idx(list, idx) = [ for (i = [0:len(list)-1]) if(i != idx) list[i]];
+/// Set the value at an index
+function list_set_idx(list, idx, val) = [ for (i = [0:len(list)-1]) if(i != idx) list[i] else val];
+/// Get the last value in a list
+function list_last(list) = list[len(list) - 1];
 
 l = empty_list();
 l1 = list_append(l, 1);
