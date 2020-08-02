@@ -122,7 +122,7 @@ module make_screw(screw_desc, head_clearance=0, play=default_play, align_top=tru
 }
 
 function fan_screw() = [SCREW_TYPE_COUNTERSUNK, 4.8, 7.8, 6.7, 1.5];
-function m5_pan_head(length) = [SCREW_TYPE_PANHEAD, 4.8, length+4, 9.8, 4];
+function m5_pan_head(length) = [SCREW_TYPE_PANHEAD, 4.8, length+4, 10, 4];
 function spax_3x12_z1() = [SCREW_TYPE_COUNTERSUNK, 3, 12.5, 6, 3];
 function fischer_duopower_6x30S() = [SCREW_TYPE_COUNTERSUNK, 4.5, 40.5, 9, 4.5];
 
