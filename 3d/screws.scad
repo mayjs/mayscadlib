@@ -127,6 +127,7 @@ function m5_pan_head(length) = [SCREW_TYPE_PANHEAD, 4.8, length+4, 10, 4];
 function spax_3x12_z1() = [SCREW_TYPE_COUNTERSUNK, 3, 12.5, 6, 3];
 function spax_2_5x10_z1() = [SCREW_TYPE_COUNTERSUNK, 2.5, 10, 5, 2.5];
 function fischer_duopower_6x30S() = [SCREW_TYPE_COUNTERSUNK, 4.5, 40.5, 9, 4.5];
+function m4_counter_sunk(length) = [SCREW_TYPE_COUNTERSUNK, 3.8, length+4, 6.2, 2.8];
 
 // Examples
 

@@ -1,5 +1,7 @@
 /// Dimension agnostic positioning functions
 
+use <math.scad>;
+
 /// Positions all children at offset and -offset.
 module plus_minus(offset) {
     translate(offset) children();
@@ -97,3 +99,15 @@ function isosceles_triangle(width, height, center=false) = center ?
                                                            center_bb(isosceles_triangle(width, height, center=false), [width,height]):
                                                             [[0,0], [width,0], [width/2, height]];
                                                            
+/// stack_extrude takes 2d children and heights.
+/// All childs will be linear_extrude'd to their corresponding height in the heights vector
+/// and lifted so that they are on top of previous childs
+module stack_extrude(heights) {
+  assert(len(heights) == $children);
+  for(i=[0:1:$children-1]) {
+    echo(heights, len(heights), 0, i);
+    lift(sum(heights, start=0, end=i))
+    linear_extrude(height=heights[i])
+    children(i);
+  }
+}

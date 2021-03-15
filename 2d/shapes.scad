@@ -52,6 +52,38 @@ module rounded_square(size=[10,10], corner_rad=1, corner_override=[-1,-1,-1,-1],
     }
 }
 
+/// A hollow rectangle with the given edge thickness.
+/// * The inner parameter controls wether size includes the edge or the edge is to be outside of the size.
+///   True = total size will be size+2*thickness
+module hollow_rect(size=[10,10], thickness=1, inner=true, center=false) {
+    if(inner) {
+        hollow_rect(size=size + 2*[thickness, thickness], thickness=thickness, inner=false, center=center);
+    } else {
+        if(center) {
+            translate(-size/2)
+            hollow_rect(size=size, thickness=thickness, inner=false, center=false);
+        } else {
+            difference() {
+                square(size=size);
+                translate([thickness, thickness])
+                square(size=size-2*[thickness, thickness]);
+            }
+        }
+    }
+}
+
+module ring(r=10, thickness=1, inner=true, center=true) {
+  if(inner) {
+    ring(r=r+thickness, thickness=thickness, inner=false, center=center);
+  } else {
+    translate(center? [0,0] : [r,r])
+    difference() {
+      circle(r=r);
+      circle(r=r-thickness);
+    }
+  }
+}
+
 // Grid demo
 grid_2d(100,100, 10, 10, 3);
 
