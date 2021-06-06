@@ -41,8 +41,12 @@ module rounded_square(size=[10,10], corner_rad=1, corner_override=[-1,-1,-1,-1],
                 f = corner_lookup[i];
                 rad = corner_override[i]==-1 ? corner_rad : corner_override[i];
                 translate([f[0] * (size[0]-2*rad), f[1] * (size[1]-2*rad)])
-                translate([rad,rad])
-                circle(r=rad);
+                intersection() {
+                  translate([rad,rad])
+                  circle(r=rad);
+                  translate([rad*f[0],rad*f[1]])
+                  square([rad,rad]);
+                }
             } else {
                 f = corner_lookup[i];
                 translate([f[0] * (size[0]-1), f[1] * (size[1]-1)])
