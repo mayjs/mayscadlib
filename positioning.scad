@@ -20,7 +20,7 @@ module plus_minus(offset) {
 ///
 /// # Children
 /// All children will be spread, you'll want to center them in most cases if you want to use padding
-module spread_fill_xy(w, h, nx, ny, padx=0, pady=undef, center=false, stamp=false) {
+module spread_fill_xy(w, h, nx, ny, padx=0, pady=undef, center=false, stamp=false, shift=0, shift_mod=1) {
     if(center) {
         translate([-w/2, -h/2, 0])
         spread_fill_xy(w, h, nx, ny, padx=padx, pady=pady, center=false, stamp=stamp) children();
@@ -28,7 +28,7 @@ module spread_fill_xy(w, h, nx, ny, padx=0, pady=undef, center=false, stamp=fals
         if(stamp) {
             difference() {
                 square([w,h]);
-                spread_fill_xy(w=w, h=h, nx=nx, ny=ny, padx=padx, pady=pady, center=center, stamp=false) children();
+                spread_fill_xy(w=w, h=h, nx=nx, ny=ny, padx=padx, pady=pady, center=center, stamp=false, shift=shift, shift_mod=shift_mod) children();
             }
         } else {
             pady = is_undef(pady) ? padx : pady;
@@ -38,11 +38,21 @@ module spread_fill_xy(w, h, nx, ny, padx=0, pady=undef, center=false, stamp=fals
 
             translate([padx, pady, 0])
             for(ix = [0:nx-1], iy=[0:ny-1]) {
-                translate([ix*stepx, iy*stepy, 0])
+                translate([ix*stepx + (iy*shift)%shift_mod, iy*stepy, 0])
                 children();
             }
         }
     }
+}
+
+module make_grid(nx, ny, sx, sy=undef, shift=0, shift_mod=1) {
+echo(nx, ny, sx, sy, shift, shift_mod);
+    sy = is_undef(sy) ? sx : sy;
+    for(ix = [0:nx-1], iy=[0:ny-1]) {
+        translate([ix*sx + (iy*shift)%shift_mod, iy*sy, 0])
+        children();
+    }
+    
 }
 
 /// A simple helper module, translates on the z axis
