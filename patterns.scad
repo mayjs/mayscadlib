@@ -7,6 +7,7 @@ module hex_grid(grid_size, hex_rad, pad, negative=true) {
       hex_grid(grid_size, hex_rad, pad, negative=false);
     }
   } else {
+    pad = pad/2; 
     nx = ceil(grid_size[0] / (hex_rad*2 + pad)) + 1;
     ny = ceil(grid_size[1] / (hex_rad*2 + pad/2)) + 1;
     sy = sqrt(3) * (hex_rad + pad/2);
