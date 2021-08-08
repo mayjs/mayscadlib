@@ -11,7 +11,7 @@ module hex_grid(grid_size, hex_rad, pad, negative=true) {
     ny = ceil(grid_size[1] / (hex_rad*2 + pad/2)) + 1;
     sy = sqrt(3) * (hex_rad + pad/2);
     intersection() {
-      make_grid(nx, ny, hex_rad*2 + pad, sy=sy, shift=hex_rad+pad/2, shift_mod=hex_rad*2+pad) {
+      make_grid(nx, ny, hex_rad*2 + pad, sy=sy, shift=hex_rad+pad/2, shift_mod=2) {
         rotate(360/12)
         circle(hex_rad, $fn=6);
       }

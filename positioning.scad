@@ -49,7 +49,7 @@ module make_grid(nx, ny, sx, sy=undef, shift=0, shift_mod=1) {
 echo(nx, ny, sx, sy, shift, shift_mod);
     sy = is_undef(sy) ? sx : sy;
     for(ix = [0:nx-1], iy=[0:ny-1]) {
-        translate([ix*sx + (iy*shift)%shift_mod, iy*sy, 0])
+        translate([ix*sx + (iy%shift_mod)*shift, iy*sy, 0])
         children();
     }
     
