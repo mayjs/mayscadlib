@@ -88,6 +88,14 @@ module ring(r=10, thickness=1, inner=true, center=true) {
   }
 }
 
+module hollow(d) {
+  difference() {
+    children();
+    offset(delta=-d)
+    children();
+  }
+}
+
 // Grid demo
 grid_2d(100,100, 10, 10, 3);
 
